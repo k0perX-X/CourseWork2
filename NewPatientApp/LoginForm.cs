@@ -44,7 +44,7 @@ namespace NewPatientApp
                 return Text;
             }
         }
-        private Patient _selectedPatient;
+        private Patient? _selectedPatient;
         public LoginForm()
         {
             InitializeComponent();
