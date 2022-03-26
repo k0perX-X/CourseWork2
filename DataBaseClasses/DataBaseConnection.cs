@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NewPatientApp
+namespace DataBaseClasses
 {
     public class DataBaseConnection
     {

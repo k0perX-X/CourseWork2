@@ -41,25 +41,21 @@
             this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПриложенииToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonAddWellBeing = new System.Windows.Forms.Button();
-            this.buttonAddDoctorAppointments = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridViewDrugRunningOut = new System.Windows.Forms.DataGridView();
             this.Лекарство = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Кончается = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.buttonMarkDoctorVisit = new System.Windows.Forms.Button();
-            this.buttonMarkVisitProcedure = new System.Windows.Forms.Button();
-            this.buttonAddProcedure = new System.Windows.Forms.Button();
             this.buttonAddPatientDrug = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.buttonPatientDrugList = new System.Windows.Forms.Button();
             this.buttonMarkMedicineTaken = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.monthCalendarProcedure = new System.Windows.Forms.MonthCalendar();
-            this.buttonProcedureList = new System.Windows.Forms.Button();
-            this.buttonDoctorAppointmentsList = new System.Windows.Forms.Button();
             this.dataGridViewPrescribedMedications = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.полныйСписокПроцедурПациентаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDrugRunningOut)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrescribedMedications)).BeginInit();
@@ -116,7 +112,9 @@
             this.перечниToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.переченьПроцедурToolStripMenuItem,
             this.переченьЛекарсовToolStripMenuItem,
-            this.переченьДокторовToolStripMenuItem});
+            this.переченьДокторовToolStripMenuItem,
+            this.полныйСписокПроцедурПациентаToolStripMenuItem,
+            this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem});
             this.перечниToolStripMenuItem.Name = "перечниToolStripMenuItem";
             this.перечниToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
             this.перечниToolStripMenuItem.Text = "Библеотека";
@@ -124,21 +122,21 @@
             // переченьПроцедурToolStripMenuItem
             // 
             this.переченьПроцедурToolStripMenuItem.Name = "переченьПроцедурToolStripMenuItem";
-            this.переченьПроцедурToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.переченьПроцедурToolStripMenuItem.Size = new System.Drawing.Size(314, 22);
             this.переченьПроцедурToolStripMenuItem.Text = "Перечень процедур";
             this.переченьПроцедурToolStripMenuItem.Click += new System.EventHandler(this.переченьПроцедурToolStripMenuItem_Click);
             // 
             // переченьЛекарсовToolStripMenuItem
             // 
             this.переченьЛекарсовToolStripMenuItem.Name = "переченьЛекарсовToolStripMenuItem";
-            this.переченьЛекарсовToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.переченьЛекарсовToolStripMenuItem.Size = new System.Drawing.Size(314, 22);
             this.переченьЛекарсовToolStripMenuItem.Text = "Перечень лекарств";
             this.переченьЛекарсовToolStripMenuItem.Click += new System.EventHandler(this.переченьЛекарсовToolStripMenuItem_Click);
             // 
             // переченьДокторовToolStripMenuItem
             // 
             this.переченьДокторовToolStripMenuItem.Name = "переченьДокторовToolStripMenuItem";
-            this.переченьДокторовToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.переченьДокторовToolStripMenuItem.Size = new System.Drawing.Size(314, 22);
             this.переченьДокторовToolStripMenuItem.Text = "Перечень докторов";
             this.переченьДокторовToolStripMenuItem.Click += new System.EventHandler(this.переченьДокторовToolStripMenuItem_Click);
             // 
@@ -159,7 +157,7 @@
             // 
             // buttonAddWellBeing
             // 
-            this.buttonAddWellBeing.Location = new System.Drawing.Point(915, 317);
+            this.buttonAddWellBeing.Location = new System.Drawing.Point(728, 321);
             this.buttonAddWellBeing.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonAddWellBeing.Name = "buttonAddWellBeing";
             this.buttonAddWellBeing.Size = new System.Drawing.Size(186, 63);
@@ -168,21 +166,10 @@
             this.buttonAddWellBeing.UseVisualStyleBackColor = true;
             this.buttonAddWellBeing.Click += new System.EventHandler(this.buttonAddWellBeing_Click);
             // 
-            // buttonAddDoctorAppointments
-            // 
-            this.buttonAddDoctorAppointments.Location = new System.Drawing.Point(14, 230);
-            this.buttonAddDoctorAppointments.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonAddDoctorAppointments.Name = "buttonAddDoctorAppointments";
-            this.buttonAddDoctorAppointments.Size = new System.Drawing.Size(186, 63);
-            this.buttonAddDoctorAppointments.TabIndex = 4;
-            this.buttonAddDoctorAppointments.Text = "Добавить посещение врача";
-            this.buttonAddDoctorAppointments.UseVisualStyleBackColor = true;
-            this.buttonAddDoctorAppointments.Click += new System.EventHandler(this.buttonAddDoctorAppointments_Click);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(402, 28);
+            this.label2.Location = new System.Drawing.Point(214, 28);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(126, 15);
@@ -197,12 +184,12 @@
             this.dataGridViewDrugRunningOut.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Лекарство,
             this.Кончается});
-            this.dataGridViewDrugRunningOut.Location = new System.Drawing.Point(402, 53);
+            this.dataGridViewDrugRunningOut.Location = new System.Drawing.Point(214, 53);
             this.dataGridViewDrugRunningOut.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dataGridViewDrugRunningOut.Name = "dataGridViewDrugRunningOut";
             this.dataGridViewDrugRunningOut.ReadOnly = true;
             this.dataGridViewDrugRunningOut.RowHeadersVisible = false;
-            this.dataGridViewDrugRunningOut.Size = new System.Drawing.Size(505, 164);
+            this.dataGridViewDrugRunningOut.Size = new System.Drawing.Size(506, 164);
             this.dataGridViewDrugRunningOut.TabIndex = 6;
             // 
             // Лекарство
@@ -219,42 +206,9 @@
             this.Кончается.ReadOnly = true;
             this.Кончается.Width = 300;
             // 
-            // buttonMarkDoctorVisit
-            // 
-            this.buttonMarkDoctorVisit.Location = new System.Drawing.Point(16, 299);
-            this.buttonMarkDoctorVisit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonMarkDoctorVisit.Name = "buttonMarkDoctorVisit";
-            this.buttonMarkDoctorVisit.Size = new System.Drawing.Size(184, 63);
-            this.buttonMarkDoctorVisit.TabIndex = 7;
-            this.buttonMarkDoctorVisit.Text = "Отметить посещение врача ";
-            this.buttonMarkDoctorVisit.UseVisualStyleBackColor = true;
-            this.buttonMarkDoctorVisit.Click += new System.EventHandler(this.buttonMarkDoctorVisit_Click);
-            // 
-            // buttonMarkVisitProcedure
-            // 
-            this.buttonMarkVisitProcedure.Location = new System.Drawing.Point(208, 299);
-            this.buttonMarkVisitProcedure.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonMarkVisitProcedure.Name = "buttonMarkVisitProcedure";
-            this.buttonMarkVisitProcedure.Size = new System.Drawing.Size(186, 63);
-            this.buttonMarkVisitProcedure.TabIndex = 9;
-            this.buttonMarkVisitProcedure.Text = "Отметить посещение процедуры";
-            this.buttonMarkVisitProcedure.UseVisualStyleBackColor = true;
-            this.buttonMarkVisitProcedure.Click += new System.EventHandler(this.buttonMarkVisitProcedure_Click);
-            // 
-            // buttonAddProcedure
-            // 
-            this.buttonAddProcedure.Location = new System.Drawing.Point(208, 230);
-            this.buttonAddProcedure.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonAddProcedure.Name = "buttonAddProcedure";
-            this.buttonAddProcedure.Size = new System.Drawing.Size(186, 63);
-            this.buttonAddProcedure.TabIndex = 8;
-            this.buttonAddProcedure.Text = "Добавить процедуру";
-            this.buttonAddProcedure.UseVisualStyleBackColor = true;
-            this.buttonAddProcedure.Click += new System.EventHandler(this.buttonAddProcedure_Click);
-            // 
             // buttonAddPatientDrug
             // 
-            this.buttonAddPatientDrug.Location = new System.Drawing.Point(915, 53);
+            this.buttonAddPatientDrug.Location = new System.Drawing.Point(728, 53);
             this.buttonAddPatientDrug.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonAddPatientDrug.Name = "buttonAddPatientDrug";
             this.buttonAddPatientDrug.Size = new System.Drawing.Size(186, 63);
@@ -266,7 +220,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(402, 230);
+            this.label3.Location = new System.Drawing.Point(214, 227);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(112, 15);
@@ -275,7 +229,7 @@
             // 
             // buttonPatientDrugList
             // 
-            this.buttonPatientDrugList.Location = new System.Drawing.Point(915, 122);
+            this.buttonPatientDrugList.Location = new System.Drawing.Point(728, 122);
             this.buttonPatientDrugList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonPatientDrugList.Name = "buttonPatientDrugList";
             this.buttonPatientDrugList.Size = new System.Drawing.Size(186, 63);
@@ -286,7 +240,7 @@
             // 
             // buttonMarkMedicineTaken
             // 
-            this.buttonMarkMedicineTaken.Location = new System.Drawing.Point(915, 248);
+            this.buttonMarkMedicineTaken.Location = new System.Drawing.Point(728, 252);
             this.buttonMarkMedicineTaken.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonMarkMedicineTaken.Name = "buttonMarkMedicineTaken";
             this.buttonMarkMedicineTaken.Size = new System.Drawing.Size(186, 63);
@@ -298,7 +252,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(208, 28);
+            this.label4.Location = new System.Drawing.Point(14, 227);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(91, 15);
@@ -307,34 +261,12 @@
             // 
             // monthCalendarProcedure
             // 
-            this.monthCalendarProcedure.Location = new System.Drawing.Point(208, 53);
+            this.monthCalendarProcedure.Location = new System.Drawing.Point(14, 252);
             this.monthCalendarProcedure.Margin = new System.Windows.Forms.Padding(10);
             this.monthCalendarProcedure.Name = "monthCalendarProcedure";
             this.monthCalendarProcedure.ShowToday = false;
             this.monthCalendarProcedure.ShowWeekNumbers = true;
             this.monthCalendarProcedure.TabIndex = 15;
-            // 
-            // buttonProcedureList
-            // 
-            this.buttonProcedureList.Location = new System.Drawing.Point(208, 368);
-            this.buttonProcedureList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonProcedureList.Name = "buttonProcedureList";
-            this.buttonProcedureList.Size = new System.Drawing.Size(186, 63);
-            this.buttonProcedureList.TabIndex = 17;
-            this.buttonProcedureList.Text = "Список процкдур пациента";
-            this.buttonProcedureList.UseVisualStyleBackColor = true;
-            this.buttonProcedureList.Click += new System.EventHandler(this.buttonProcedureList_Click);
-            // 
-            // buttonDoctorAppointmentsList
-            // 
-            this.buttonDoctorAppointmentsList.Location = new System.Drawing.Point(16, 368);
-            this.buttonDoctorAppointmentsList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonDoctorAppointmentsList.Name = "buttonDoctorAppointmentsList";
-            this.buttonDoctorAppointmentsList.Size = new System.Drawing.Size(184, 63);
-            this.buttonDoctorAppointmentsList.TabIndex = 18;
-            this.buttonDoctorAppointmentsList.Text = "Список посещений врача пациента";
-            this.buttonDoctorAppointmentsList.UseVisualStyleBackColor = true;
-            this.buttonDoctorAppointmentsList.Click += new System.EventHandler(this.buttonDoctorAppointmentsList_Click);
             // 
             // dataGridViewPrescribedMedications
             // 
@@ -344,12 +276,12 @@
             this.dataGridViewPrescribedMedications.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2});
-            this.dataGridViewPrescribedMedications.Location = new System.Drawing.Point(402, 248);
+            this.dataGridViewPrescribedMedications.Location = new System.Drawing.Point(214, 252);
             this.dataGridViewPrescribedMedications.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dataGridViewPrescribedMedications.Name = "dataGridViewPrescribedMedications";
             this.dataGridViewPrescribedMedications.ReadOnly = true;
             this.dataGridViewPrescribedMedications.RowHeadersVisible = false;
-            this.dataGridViewPrescribedMedications.Size = new System.Drawing.Size(505, 183);
+            this.dataGridViewPrescribedMedications.Size = new System.Drawing.Size(506, 164);
             this.dataGridViewPrescribedMedications.TabIndex = 19;
             // 
             // dataGridViewTextBoxColumn1
@@ -366,6 +298,20 @@
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
             this.dataGridViewTextBoxColumn2.Width = 300;
             // 
+            // полныйСписокПроцедурПациентаToolStripMenuItem
+            // 
+            this.полныйСписокПроцедурПациентаToolStripMenuItem.Name = "полныйСписокПроцедурПациентаToolStripMenuItem";
+            this.полныйСписокПроцедурПациентаToolStripMenuItem.Size = new System.Drawing.Size(314, 22);
+            this.полныйСписокПроцедурПациентаToolStripMenuItem.Text = "Полный список процедур пациента";
+            this.полныйСписокПроцедурПациентаToolStripMenuItem.Click += new System.EventHandler(this.полныйСписокПроцедурПациентаToolStripMenuItem_Click);
+            // 
+            // полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem
+            // 
+            this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem.Name = "полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem";
+            this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem.Size = new System.Drawing.Size(314, 22);
+            this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem.Text = "Полный список записей ко врачу пациента";
+            this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem.Click += new System.EventHandler(this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -375,20 +321,14 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1194, 546);
             this.Controls.Add(this.dataGridViewPrescribedMedications);
-            this.Controls.Add(this.buttonDoctorAppointmentsList);
-            this.Controls.Add(this.buttonProcedureList);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.monthCalendarProcedure);
             this.Controls.Add(this.buttonMarkMedicineTaken);
             this.Controls.Add(this.buttonPatientDrugList);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonAddPatientDrug);
-            this.Controls.Add(this.buttonMarkVisitProcedure);
-            this.Controls.Add(this.buttonAddProcedure);
-            this.Controls.Add(this.buttonMarkDoctorVisit);
             this.Controls.Add(this.dataGridViewDrugRunningOut);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.buttonAddDoctorAppointments);
             this.Controls.Add(this.buttonAddWellBeing);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.monthCalendarDoctor);
@@ -418,12 +358,8 @@
         private System.Windows.Forms.ToolStripMenuItem справкаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem оПриложенииToolStripMenuItem;
         private System.Windows.Forms.Button buttonAddWellBeing;
-        private System.Windows.Forms.Button buttonAddDoctorAppointments;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.DataGridView dataGridViewDrugRunningOut;
-        private System.Windows.Forms.Button buttonMarkDoctorVisit;
-        private System.Windows.Forms.Button buttonMarkVisitProcedure;
-        private System.Windows.Forms.Button buttonAddProcedure;
         private System.Windows.Forms.ToolStripMenuItem перечниToolStripMenuItem;
         private System.Windows.Forms.Button buttonAddPatientDrug;
         private System.Windows.Forms.Label label3;
@@ -435,13 +371,13 @@
         private System.Windows.Forms.Button buttonMarkMedicineTaken;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.MonthCalendar monthCalendarProcedure;
-        private System.Windows.Forms.Button buttonProcedureList;
-        private System.Windows.Forms.Button buttonDoctorAppointmentsList;
         private DataGridViewTextBoxColumn Лекарство;
         private DataGridViewTextBoxColumn Кончается;
         private DataGridView dataGridViewPrescribedMedications;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private ToolStripMenuItem полныйСписокПроцедурПациентаToolStripMenuItem;
+        private ToolStripMenuItem полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem;
     }
 }
 

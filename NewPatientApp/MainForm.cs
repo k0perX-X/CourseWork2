@@ -3,16 +3,40 @@ using System.Windows.Forms;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace NewPatientApp
 {
     public partial class MainForm : Form
     {
-        public Patient? SelectedPatient;
-        public List<PatientProcedure> PatientProceduresList = new List<PatientProcedure>();
-        public List<DoctorAppointment> DoctorAppointmentsList = new List<DoctorAppointment>();
-        public List<PatientDrug> DrugRunningOut = new List<PatientDrug>();
-        public List<PrescribedMedication> PrescribedMedications = new();
+        public static Patient? SelectedPatient;
+        public static List<PatientProcedure> PatientProceduresList = new List<PatientProcedure>();
+        public static List<DoctorAppointment> DoctorAppointmentsList = new List<DoctorAppointment>();
+        public static List<PatientDrug> DrugRunningOut = new List<PatientDrug>();
+        public static List<PatientDrug> PatientDrugs = new List<PatientDrug>();
+        public static List<PrescribedMedication> PrescribedMedications = new();
+        public static List<Drug> Drugs = new List<Drug>();
+
+        public void LoadDrugs()
+        {
+            using (var connection = new SqlConnection(DataBaseConnection.ConnectionString))
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand(@"Select * from [Drug directory]", connection);
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    var o = new Drug()
+                    {
+                        ID = (int) dr["ID"],
+                        Name = (string) dr["Name"],
+                        Note = (string) dr["Note"] is DBNull ? null : (string?) dr["Note"],
+                        ExpirationDate = (int) dr["Expiration date"]
+                    };
+                    Drugs.Add(o);
+                }
+            }
+        }
 
         public void LoadProcedures()
         {
@@ -38,8 +62,8 @@ namespace NewPatientApp
                         DateTime = (DateTime)dr["DateTime"],
                         ProcedureID = (int)dr["ProcedureID"],
                         ProcedureName = (string)dr["ProcedureName"],
-                        ProcedureNote = dr["ProcedureNote"].GetType() is DBNull ? (string?)dr["ProcedureNote"] : null,
-                        Note = dr["Note"].GetType() is DBNull ? (string?)dr["Note"] : null,
+                        ProcedureNote = dr["ProcedureNote"] is DBNull? null : (string?)dr["ProcedureNote"] ,
+                        Note = dr["Note"] is DBNull ? null : (string?)dr["Note"],
                         Visited = (bool)dr["Visited"],
                         Patient = SelectedPatient,
                         PatientID = SelectedPatient.ID
@@ -80,23 +104,25 @@ namespace NewPatientApp
                     {
                         ID = (int)dr["DoctorAppointmentID"],
                         DateTime = (DateTime)dr["DateTime"],
-                        PatientTemperature = dr["PatientTemperature"].GetType() is DBNull ? (double?) dr["PatientTemperature"] : null,
-                        WordFile = dr["WordFile"].GetType() is DBNull ? (string?)dr["WordFile"] : null,
-                        Note = dr["Note"].GetType() is DBNull ? (string?)dr["Note"] : null,
+                        PatientTemperature = dr["PatientTemperature"] is DBNull? null : (double?) dr["PatientTemperature"] ,
+                        WordFile = dr["WordFile"] is DBNull ? null : (string?)dr["WordFile"],
+                        Note = dr["Note"] is DBNull ? null : (string?)dr["Note"] ,
                         Visited = (bool)dr["Visited"],
                         DoctorID = (int) dr["DoctorID"],
                         DoctorName = (string) dr["DoctorName"],
                         DoctorSurname = (string)dr["DoctorSurname"],
-                        DoctorMiddleName = dr["DoctorMiddleName"].GetType() is DBNull ? (string?)dr["DoctorMiddleName"] : null,
-                        DoctorNote = dr["DoctorNote"].GetType() is DBNull ? (string?)dr["DoctorNote"] : null,
+                        DoctorMiddleName = dr["DoctorMiddleName"] is DBNull ? null : (string?)dr["DoctorMiddleName"],
+                        DoctorNote = dr["DoctorNote"] is DBNull ? null : (string?)dr["DoctorNote"],
                         DoctorBirthdate = (DateTime) dr["DoctorBirthdate"],
                         DoctorEMail = (string)dr["DoctorEMail"],
-                        DoctorOtherInformation = dr["DoctorOtherInformation"].GetType() is DBNull ? (string?)dr["DoctorOtherInformation"] : null,
+                        DoctorOtherInformation = dr["DoctorOtherInformation"] is DBNull ? null : (string?)dr["DoctorOtherInformation"],
                         Patient = SelectedPatient,
                         PatientID = SelectedPatient.ID
                     });
                 }
             }
+            DoctorAppointmentsList.Sort((a, b) => 
+                (a.DateTime.Ticks - b.DateTime.Ticks) < 0 ? -1 : (a.DateTime.Ticks - b.DateTime.Ticks) > 0 ? 1 : 0);
             DateTime[] dateTimes = new DateTime[DoctorAppointmentsList.Count];
             for (int i = 0; i < dateTimes.Length; i++)
                 dateTimes[i] = DoctorAppointmentsList[i].DateTime;
@@ -111,13 +137,10 @@ namespace NewPatientApp
                 SqlCommand cmd = new SqlCommand(
                     @"Select 
 	                            pd.ID as pdID, pd.[Date of manufacture] as DateOfManufacture, 
-	                            pd.Remaining as Remaining, dd.[Drug Name] as Name
+	                            pd.Remaining as Remaining
                             from 
 	                            (Select * from [Patient's drugs]
-	                            where Remaining < 10 and [Patient ID] = @SelectedPatient) as pd
-                            left join 
-	                            [Drug directory] as dd
-                            on pd.[Drug ID] = dd.ID; ", connection);
+	                            where [Patient ID] = @SelectedPatient) as pd", connection);
                 cmd.Parameters.AddWithValue("@SelectedPatient", (int)SelectedPatient);
                 Dictionary<int, (PatientDrug p, bool r, bool d)> dic = new();
                 var dr = cmd.ExecuteReader();
@@ -126,18 +149,26 @@ namespace NewPatientApp
                     var o = new PatientDrug()
                     {
                         ID = (int) dr["pdID"],
+                        Drug = Drugs.Single(b => b.ID == (int)dr["DrugID"]),
                         DateOfManufacture = (DateTime) dr["DateOfManufacture"],
-                        Name = (string) dr["Name"],
                         Remaining = (int) dr["Remaining"]
                     };
-                    DrugRunningOut.Add(o);
-                    dic.Add(o.ID, (o, true, false));
+                    PatientDrugs.Add(o);
                 }
                 dr.Close();
+
+                foreach (PatientDrug patientDrug in PatientDrugs)
+                {
+                    var prescribedMedications = PrescribedMedications.Where(b => b.DrugID == patientDrug.Drug.ID);
+                    if (prescribedMedications.Count() != 0)
+                        foreach (var prescribedMedication in prescribedMedications)
+                            if (prescribedMedication.LeftTakeMedicine > patientDrug.Remaining)
+                                dic.Add(patientDrug.Drug.ID, (patientDrug, true, false));
+                }
                 cmd = new SqlCommand(
                     @"Select 
 	                            pd.ID as pdID, pd.[Date of manufacture] as DateOfManufacture, 
-	                            pd.Remaining as Remaining, dd.[Drug Name] as Name
+	                            pd.Remaining as Remaining, dd.[Drug Name] as Name, dd.ID as DrugID
                             from 
 	                            (Select * from [Patient's drugs]
 	                            where [Patient ID] = @SelectedPatient and Remaining > 0) as pd
@@ -146,7 +177,7 @@ namespace NewPatientApp
                             on pd.[Drug ID] = dd.ID
                             where DATEDIFF(MM, 
 	                            DATEADD(dd, dd.[Expiration date], pd.[Date of manufacture]), 
-	                            GETDATE()) > -30
+	                            GETDATE()) > -1
                             and DATEDIFF(MM, 
 	                            DATEADD(dd, dd.[Expiration date], pd.[Date of manufacture]), 
 	                            GETDATE()) <= 0;", connection);
@@ -157,8 +188,8 @@ namespace NewPatientApp
                     var o = new PatientDrug()
                     {
                         ID = (int)dr["pdID"],
+                        Drug = Drugs.Single(b => b.ID == (int)dr["DrugID"]),
                         DateOfManufacture = (DateTime)dr["DateOfManufacture"],
-                        Name = (string)dr["Name"],
                         Remaining = (int)dr["Remaining"]
                     };
                     if (dic.ContainsKey(o.ID))
@@ -175,21 +206,21 @@ namespace NewPatientApp
                     if (keyValuePair.Value.r & keyValuePair.Value.d)
                     {
                         var row = new DataGridViewRow();
-                        row.Cells[0].Value = keyValuePair.Value.p.Name;
+                        row.Cells[0].Value = keyValuePair.Value.p.Drug.Name;
                         row.Cells[1].Value = "Осталось " + keyValuePair.Value.p.Remaining + " доз и истекает срок годности";
                         dataGridViewDrugRunningOut.Rows.Add(row);
                     }
                     else if (keyValuePair.Value.r)
                     {
                         var row = new DataGridViewRow();
-                        row.Cells[0].Value = keyValuePair.Value.p.Name;
+                        row.Cells[0].Value = keyValuePair.Value.p.Drug.Name;
                         row.Cells[1].Value = "Осталось " + keyValuePair.Value.p.Remaining + " доз";
                         dataGridViewDrugRunningOut.Rows.Add(row);
                     }
                     else
                     {
                         var row = new DataGridViewRow();
-                        row.Cells[0].Value = keyValuePair.Value.p.Name;
+                        row.Cells[0].Value = keyValuePair.Value.p.Drug.Name;
                         row.Cells[1].Value = "Истекает срок годности";
                         dataGridViewDrugRunningOut.Rows.Add(row);
                     }
@@ -208,22 +239,24 @@ namespace NewPatientApp
 	                            [Reception time during the day], [Reception time in the evening],
 	                            [Reception time in the morning], [Take before meals], [Take after meals],
 	                            [Take with meals], PrescribedMedicationsNote, DrugName, DrugNote, DrugID
+                                TakeMedicineBeforeDate
                             from 
 	                            (Select * from [Doctor's appointments]
-	                            where [Patient ID] = 1) as da
+	                            where [Patient ID] = @SelectedPatient) as da
                             left join 
 	                            (Select 
 		                            [ID Doctor's appointments], PrescribedMedicationsID,
 		                            [Reception time during the day], [Reception time in the evening],
 		                            [Reception time in the morning], [Take before meals], [Take after meals],
 		                            [Take with meals], PrescribedMedicationsNote, [Drug Name] as DrugName, 
-		                            Note as DrugNote, ID as DrugID
+		                            TakeMedicineBeforeDate, Note as DrugNote, ID as DrugID
 	                            from 
 		                            (Select 
 			                            [Drug ID], [ID Doctor's appointments], ID as PrescribedMedicationsID,
 			                            [Reception time during the day], [Reception time in the evening],
 			                            [Reception time in the morning], [Take before meals], [Take after meals],
-			                            [Take with meals], Note as PrescribedMedicationsNote
+			                            [Take with meals], [Take medicine before the date] as TakeMedicineBeforeDate, 
+                                        Note as PrescribedMedicationsNote
 		                            from [Prescribed medications]
 		                            where DATEDIFF(DD, 
 			                            [Take medicine before the date], 
@@ -243,20 +276,27 @@ namespace NewPatientApp
                         m = PrescribedMedication.Meals.TakeBeforeMeals;
                     else
                         m = PrescribedMedication.Meals.TakeWithMeals;
-                    PrescribedMedications.Add(new PrescribedMedication()
+                    var o = new PrescribedMedication()
                     {
-                        DoctorAppointment = DoctorAppointmentsList.Single(b => b.ID == (int) dr["ID Doctor's appointments"]),
+                        DoctorAppointment = DoctorAppointmentsList.Single(b => b.ID == (int)dr["ID Doctor's appointments"]),
                         DoctorAppointmentID = (int)dr["ID Doctor's appointments"],
-                        DrugID = (int) dr["DrugID"],
-                        DrugName = (string) dr["DrugName"],
-                        DrugNote = dr["DrugNote"].GetType() is DBNull ? (string?)dr["DrugNote"] : null,
-                        ID = (int) dr["PrescribedMedicationsID"],
-                        Note = dr["Note"].GetType() is DBNull ? (string?)dr["Note"] : null,
+                        DrugID = (int)dr["DrugID"],
+                        DrugName = (string)dr["DrugName"],
+                        DrugNote = dr["DrugNote"] is DBNull ? null : (string?)dr["DrugNote"],
+                        ID = (int)dr["PrescribedMedicationsID"],
+                        Note = dr["Note"] is DBNull ? null : (string?)dr["Note"] ,
                         ReceptionTimeDuringTheDay = (bool)dr["Reception time during the day"],
                         ReceptionTimeInTheEvening = (bool)dr["Reception time in the evening"],
                         ReceptionTimeInTheMorning = (bool)dr["Reception time in the morning"],
-                        TakeMeals = m
-                    });
+                        TakeMeals = m,
+                        TakeMedicineBeforeDate = (DateTime)dr["TakeMedicineBeforeDate"],
+                        LeftTakeMedicine = 0
+                    };
+                    int x = o.ReceptionTimeDuringTheDay ? 1 : 0;
+                    x += o.ReceptionTimeInTheEvening ? 1 : 0;
+                    x += o.ReceptionTimeInTheMorning ? 1 : 0;
+                    o.LeftTakeMedicine = -DateTime.Now.Subtract(o.TakeMedicineBeforeDate).Days * x;
+                    PrescribedMedications.Add(o);
                 }
             }
 
@@ -306,8 +346,10 @@ namespace NewPatientApp
             }
             else
             {
+                LoadDrugs();
                 LoadProcedures();
-                LoadDoctorAppointments();
+                LoadDoctorAppointments(); 
+                LoadPrescribedMedications();
                 LoadDrugRunningOut();
             }
         }
@@ -337,57 +379,24 @@ namespace NewPatientApp
                 while (dr.Read())
                 {
                     dgf.DataGridView.Rows.Add(new object[]
-                        {(string) dr["Name"], dr["Note"].GetType() is DBNull ? (string?) dr["Note"] : null});
+                        {(string) dr["Name"], dr["Note"] is DBNull ? "" : (string) dr["Note"]});
                 }
             }
-
             dgf.ShowDialog();
         }
 
         private void переченьЛекарсовToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var dgf = new DataGridForm("Все лекарства выписываемые поликлиникой");
+            var dgf = new DataGridForm("Лекарства в наличии");
             dgf.DataGridView.ColumnCount = 3;
             dgf.DataGridView.Columns[0].Name = "Название лекарства";
             dgf.DataGridView.Columns[1].Name = "Описание";
             dgf.DataGridView.Columns[2].Name = "Срок годности";
 
-            using (var connection = new SqlConnection(DataBaseConnection.ConnectionString))
+            foreach (var o in Drugs)
             {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand(@"Select * from [Drug directory]", connection);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    int month = (int)dr["Expiration date"];
-                    int year = month / 12; 
-                    month %= 12;
-                    string s = "";
-                    if (year != 0)
-                        if (year <= 20)
-                            if (year == 1)
-                                s += year.ToString() + " год ";
-                            else if (year >= 2 & year < 5)
-                                s += year.ToString() + " года ";
-                            else
-                                s += year.ToString() + " лет ";
-                        else
-                            if (year % 10 == 1)
-                                s += year.ToString() + " год ";
-                            else if (year % 10 >= 2 && year % 10 < 5)
-                                s += year.ToString() + " года ";
-                            else
-                                s += year.ToString() + " лет ";
-                    if (month != 0)
-                        if (month == 1)
-                            s += month.ToString() + " месяц";
-                        else if (month >= 2 & month < 5)
-                            s += month.ToString() + " месяца";
-                        else
-                            s += month.ToString() + " месяцев";
-                    dgf.DataGridView.Rows.Add(new object[]
-                        {(string) dr["Name"], dr["Note"].GetType() is DBNull ? (string?) dr["Note"] : null, s});
-                }
+                dgf.DataGridView.Rows.Add(new object[]
+                    {o.Name, o.Note ?? "", o.ExpirationDateToString()});
             }
             dgf.ShowDialog();
         }
@@ -409,69 +418,115 @@ namespace NewPatientApp
                 {
                     string Surname = (string) dr["Surname"];
                     string Name = (string) dr["Name"];
-                    string? MiddleName = dr["Middle name"].GetType() is DBNull ? (string?)dr["Middle name"] : null;
+                    string? MiddleName = dr["Middle name"]is DBNull ? null : (string?)dr["Middle name"];
                     string s = Surname + "  " + Name;
                     if (MiddleName != null)
                         s += " " + MiddleName;
                     dgf.DataGridView.Rows.Add(new object[]
-                        {s, (string) dr["e-mail"], dr["Note"].GetType() is DBNull ? (string?) dr["Note"] : ""});
+                        {s, (string) dr["e-mail"], dr["Note"] is DBNull ? "" : (string) dr["Note"]});
                 }
             }
             dgf.ShowDialog();
         }
 
-        private void buttonAddDoctorAppointments_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void buttonMarkDoctorVisit_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void buttonDoctorAppointmentsList_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void buttonAddProcedure_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void buttonMarkVisitProcedure_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void buttonProcedureList_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void buttonAddPatientDrag_Click(object sender, EventArgs e)
         {
-
+            new AddPatientDragForm().ShowDialog();
         }
 
         private void buttonPatientDragList_Click(object sender, EventArgs e)
         {
+            var dgf = new DataGridForm("Все лекарства выписываемые поликлиникой");
+            dgf.DataGridView.ColumnCount = 4;
+            dgf.DataGridView.Columns[0].Name = "Название лекарства";
+            dgf.DataGridView.Columns[1].Name = "Описание";
+            dgf.DataGridView.Columns[2].Name = "Осталось доз";
+            dgf.DataGridView.Columns[3].Name = "Дата производства лекарства";
 
+            foreach (var patientDrug in PatientDrugs)
+            {
+                dgf.DataGridView.Rows.Add(new object[]
+                {
+                    patientDrug.Drug.Name,
+                    patientDrug.Drug.Name ?? "",
+                    patientDrug.Remaining,
+                    patientDrug.DateOfManufacture.ToString("d MMM yyyy")
+                });
+            }
+            dgf.ShowDialog();
         }
 
         private void buttonAddWellBeing_Click(object sender, EventArgs e)
         {
-
+            new AddWellBeingForm().ShowDialog();
         }
 
         private void buttonMarkMedicineTaken_Click(object sender, EventArgs e)
         {
-
+            new MarkMedicineTakenForm().ShowDialog();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+        }
+
+        private void полныйСписокПроцедурПациентаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dgf = new DataGridForm("Все записи процедур");
+            dgf.DataGridView.ColumnCount = 5;
+            dgf.DataGridView.Columns[0].Name = "Посещено";
+            dgf.DataGridView.Columns[1].Name = "Название процедуры";
+            dgf.DataGridView.Columns[2].Name = "Дата и время записи";
+            dgf.DataGridView.Columns[3].Name = "Заметка";
+            foreach (PatientProcedure patientProcedure in PatientProceduresList)
+            {
+                dgf.DataGridView.Rows.Add(new object[]
+                {
+                    patientProcedure.Visited ? "✔" : "",
+                    patientProcedure.ProcedureName,
+                    patientProcedure.DateTime.ToString("d MMM yyyy HH:mm"),
+                    patientProcedure.Note ?? "",
+                });
+            }
+
+            dgf.ShowDialog();
+
+        }
+
+        private void полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+            {
+                // TODO
+            }
+            var dgf = new DataGridForm("Записи ко врачу");
+            dgf.DataGridView.ColumnCount = 5;
+            dgf.DataGridView.Columns[0].Name = "Посещено";
+            dgf.DataGridView.Columns[1].Name = "ФИО доктора";
+            dgf.DataGridView.Columns[2].Name = "Дата и время записи";
+            dgf.DataGridView.Columns[3].Name = "Заметка";
+            dgf.DataGridView.Columns[4].Name = "Температура пациента";
+            dgf.DataGridView.Columns.Add(new DataGridViewButtonColumn());
+            dgf.DataGridView.Columns[5].Name = "Cкачать Word файл";
+            dgf.DataGridView.CellClick +=
+                new DataGridViewCellEventHandler(dataGridView_CellClick);
+            foreach (DoctorAppointment doctorAppointment in DoctorAppointmentsList)
+            {
+                dgf.DataGridView.Rows.Add(new object[]
+                {
+                    doctorAppointment.Visited ? "✔" : "", 
+                    doctorAppointment.DoctorMiddleName == null ?
+                        doctorAppointment.DoctorSurname + " " + doctorAppointment.DoctorName :
+                        doctorAppointment.DoctorSurname + " " + doctorAppointment.DoctorName + doctorAppointment.DoctorMiddleName,
+                    doctorAppointment.DateTime.ToString("d MMM yyyy HH:mm"),
+                    doctorAppointment.Note ?? "",
+                    doctorAppointment.PatientTemperature.ToString() ?? "",
+                    "Cкачать Word файл"
+                });
+            }
+
+            dgf.ShowDialog();
+
         }
     }
 }

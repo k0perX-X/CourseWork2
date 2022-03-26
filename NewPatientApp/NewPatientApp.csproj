@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -11,6 +11,7 @@
     <Description>Приложение для подключения пациента к базе данных поликлиники</Description>
     <Copyright>Copyright ©  2022</Copyright>
     <PackageIcon>medical-history.png</PackageIcon>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +24,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="MarkMedicineTakenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="AddPatientDragForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

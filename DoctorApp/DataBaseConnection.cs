@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NewPatientApp
+namespace DoctorApp
 {
     public class DataBaseConnection
     {
@@ -14,8 +14,8 @@ namespace NewPatientApp
         public DateTime DateTime;
         public int ProcedureID;
         public string ProcedureName;
-        public string? ProcedureNote;
-        public string? Note;
+        public string ProcedureNote;
+        public string Note;
         public bool Visited;
     }
 
@@ -24,19 +24,19 @@ namespace NewPatientApp
         public int ID;
         public double? PatientTemperature;
         public DateTime DateTime;
-        public string? WordFile;
-        public string? Note;
+        public string WordFile;
+        public string Note;
         public bool Visited;
         public Patient Patient;
         public int PatientID;
         public int DoctorID;
         public string DoctorName;
         public string DoctorSurname;
-        public string? DoctorMiddleName;
-        public string? DoctorNote;
+        public string DoctorMiddleName;
+        public string DoctorNote;
         public DateTime DoctorBirthdate;
         public string DoctorEMail;
-        public string? DoctorOtherInformation;
+        public string DoctorOtherInformation;
     }
 
     public class Patient
@@ -44,11 +44,11 @@ namespace NewPatientApp
         public int ID;
         public string Name;
         public string Surname;
-        public string? MiddleName;
-        public string? Note;
+        public string MiddleName;
+        public string Note;
         public DateTime Birthdate;
         public string EMail;
-        public string? OtherInformation;
+        public string OtherInformation;
         public static explicit operator int(Patient p)
         {
             return p.ID;
@@ -67,11 +67,11 @@ namespace NewPatientApp
         public int ID;
         public string Name;
         public string Surname;
-        public string? MiddleName;
-        public string? Note;
+        public string MiddleName;
+        public string Note;
         public DateTime Birthdate;
         public string EMail;
-        public string? OtherInformation;
+        public string OtherInformation;
         public static explicit operator int(Doctor p)
         {
             return p.ID;
@@ -108,9 +108,9 @@ namespace NewPatientApp
         public bool ReceptionTimeDuringTheDay;
         public bool ReceptionTimeInTheEvening;
         public bool ReceptionTimeInTheMorning;
-        public string? Note;
+        public string Note;
         public string DrugName;
-        public string? DrugNote;
+        public string DrugNote;
         public int DrugID;
         public Meals TakeMeals;
         public int LeftTakeMedicine;
@@ -121,7 +121,7 @@ namespace NewPatientApp
     {
         public int ID;
         public string Name;
-        public string? Note;
+        public string Note;
         public int ExpirationDate;
 
         public override string ToString()

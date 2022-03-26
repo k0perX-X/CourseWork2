@@ -9,10 +9,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-
-namespace NewPatientApp
+using System.Data.SqlClient;
+namespace DoctorApp
 {
     public partial class LoginForm : Form
     {
@@ -24,15 +22,15 @@ namespace NewPatientApp
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
 
-                return Convert.ToHexString(hashBytes); // .NET 5 +
+                //return Convert.ToHexString(hashBytes); // .NET 5 +
 
                 // Convert the byte array to hexadecimal string prior to .NET 5
-                // StringBuilder sb = new System.Text.StringBuilder();
-                // for (int i = 0; i < hashBytes.Length; i++)
-                // {
-                //     sb.Append(hashBytes[i].ToString("X2"));
-                // }
-                // return sb.ToString();
+                StringBuilder sb = new System.Text.StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
             }
         }
         private class comboBoxItem
@@ -44,7 +42,7 @@ namespace NewPatientApp
                 return Text;
             }
         }
-        private Patient? _selectedPatient;
+        private Doctor _selectedDoctor;
         public LoginForm()
         {
             InitializeComponent();
@@ -52,7 +50,7 @@ namespace NewPatientApp
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand(
-                    @"Select p.Name, p.Surname, p.[Middle name], p.ID from Patients as p", connection);
+                    @"Select p.Name, p.Surname, p.[Middle name], p.ID from Doctors as p", connection);
                 var dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
@@ -64,10 +62,10 @@ namespace NewPatientApp
             }
         }
 
-        public Patient? Login()
+        public Doctor Login()
         {
             ShowDialog();
-            return _selectedPatient;
+            return _selectedDoctor;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -77,8 +75,8 @@ namespace NewPatientApp
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand(
-                    @"Select * from Patients as p where p.ID = @SelectedPatient", connection);
-                cmd.Parameters.AddWithValue("@SelectedPatient", ((comboBoxItem) comboBox1.SelectedItem).Tag);
+                    @"Select * from Doctors as p where p.ID = @SelectedDoctor", connection);
+                cmd.Parameters.AddWithValue("@SelectedDoctor", ((comboBoxItem) comboBox1.SelectedItem).Tag);
                 var dr = cmd.ExecuteReader();
                 dr.Read();
                 password = (string) dr["Password"];
@@ -86,7 +84,7 @@ namespace NewPatientApp
                 Debug.Print($"{maskedTextBox1.Text} {CreateMD5(maskedTextBox1.Text)} {password}");
                 if (password.ToLower() == CreateMD5(maskedTextBox1.Text).ToLower())
                 {
-                    _selectedPatient = new Patient()
+                    _selectedDoctor = new Doctor()
                     {
                         ID = (int) dr["ID"],
                         Name = (string) dr["Name"],
