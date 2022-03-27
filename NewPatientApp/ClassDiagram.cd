@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NewPatientApp.AboutBox1">
+    <Position X="5.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kIAAAAgAACAgCAUAAACAAAADAAAAEIAAAAAAAAAAAAA=</HashCode>
+      <FileName>AboutBox1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.AddPatientDragForm">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAACCAABASAADAAAACAAAAAAAAJAAAAAAAAAA=</HashCode>
+      <FileName>AddPatientDragForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.AddWellBeingForm">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACCAABAAAADAAAACAQAAAAAAJAAQgAAAAAA=</HashCode>
+      <FileName>AddWellBeingForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.DataBaseConnection">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.PatientProcedure">
+    <Position X="4" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQQAAgAgAAAAAAAAAAEAAAAQAACAAAAEACAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.DoctorAppointment">
+    <Position X="4" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAQQAAgAFAAAAAAAAACAAAQAQABAAAAhEADAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.Patient">
+    <Position X="9.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAgAAEAAAUAAQABCAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.Doctor">
+    <Position X="11" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAgAAEAAAUAAQABCAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.PatientDrug">
+    <Position X="5.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAEA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.PrescribedMedication">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="NewPatientApp.PrescribedMedication.Meals" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>DataBaseConnection.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AIAAAEIAAABAgAAEEAAAAAAAAAAAIABABEIABAEAAAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.Drug">
+    <Position X="7.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAgAAEAAAAAAQAQAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.WellBeingRecord">
+    <Position X="7.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAQAAAAAAAEECAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.MedicationTaken">
+    <Position X="7.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAJAgAAAAAAAAAAAAAAAAAQAAAAABAAACAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.DataGridForm">
+    <Position X="11" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAQAAACAAAEAAAADAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataGridForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.LoginForm">
+    <Position X="11" Y="5" Width="1.5" />
+    <NestedTypes>
+      <Class Name="NewPatientApp.LoginForm.comboBoxItem" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>LoginForm.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAABAQAACIAAACBAAIAAAAAEAQAAACAAA=</HashCode>
+      <FileName>LoginForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.MainForm">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CUCgCAASAPBCDBGEABrlQkIGQEAACoIEBCYECAQAAQI=</HashCode>
+      <FileName>MainForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.MarkMedicineTakenForm">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAACCAABAQEAHCAIACAAAAAAAAJAAAAAAAAAA=</HashCode>
+      <FileName>MarkMedicineTakenForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.Program">
+    <Position X="5.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NewPatientApp.TimeSpanSelectForm">
+    <Position X="9.25" Y="8" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="NewPatientApp.TimeSpanSelectForm.GenerateReport" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>TimeSpanSelectForm.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAABAAACAAABACAACAAAACAAAIAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>TimeSpanSelectForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -25,6 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PatientApp\PatientApp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="MarkMedicineTakenForm.cs">
       <SubType>Form</SubType>
     </Compile>

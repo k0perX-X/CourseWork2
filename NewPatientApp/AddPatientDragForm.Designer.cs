@@ -133,7 +133,7 @@
             this.Name = "AddPatientDragForm";
             this.Padding = new System.Windows.Forms.Padding(0, 0, 15, 15);
             this.ShowIcon = false;
-            this.Text = "Добавить принятое лекартсво";
+            this.Text = "Добавление лекарства в спискок имеющихся";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AddPatientDrag_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);

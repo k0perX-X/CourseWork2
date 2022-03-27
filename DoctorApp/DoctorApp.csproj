@@ -183,6 +183,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="ClassDiagram.cd" />
     <None Include="Course_backupDataSet.xsc">
       <DependentUpon>Course_backupDataSet.xsd</DependentUpon>
     </None>

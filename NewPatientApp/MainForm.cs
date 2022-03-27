@@ -147,7 +147,7 @@ namespace NewPatientApp
                     @"Select [Drug ID] as DrugID, SUM(Remaining) as Remaining, 
                                 MIN([Date of manufacture]) as DateOfManufacture
                             from (Select * from [Patient's drugs]
-                            where [Patient ID] = 2 and Remaining > 0) as pd
+                            where [Patient ID] = @SelectedPatient and Remaining > 0) as pd
                             group by [Drug ID]", connection);
                 cmd.Parameters.AddWithValue("@SelectedPatient", (int)SelectedPatient);
                 Dictionary<int, (PatientDrug p, bool r, bool d)> dic = new();
@@ -240,7 +240,7 @@ namespace NewPatientApp
                             from 
 	                            (Select * from [Doctor's appointments]
 	                            where [Patient ID] = @SelectedPatient) as da
-                            left join 
+                            join 
 	                            (Select 
 		                            [ID Doctor's appointments], PrescribedMedicationsID,
 		                            [Reception time during the day], [Reception time in the evening],

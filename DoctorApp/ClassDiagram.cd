@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DoctorApp.Program">
+    <Position X="5.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.AboutBox1">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kIAAAAgAACAgCAUAAACAAAADAAAAEIAAAAAAAAAAAAA=</HashCode>
+      <FileName>AboutBox1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.AddDoctorsAppointmentsForm">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAEUAIIAiDBIrVeBsACEIBCyAFQIABgAAEAEACQBAAQ=</HashCode>
+      <FileName>AddDoctorsAppointmentsForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.AddPatientProcedureForm">
+    <Position X="19.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BBEQAIIAgCCABBcAoACsIgAyAABBABgAAACCAARBAAA=</HashCode>
+      <FileName>AddPatientProcedureForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.AddPrescribedMedicationsForm">
+    <Position X="21.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAIAAACAAKBQQCAKABIAmIAAYAAACCGgAgAQQYBA=</HashCode>
+      <FileName>AddPrescribedMedicationsForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.AllDoctorsAppointmentsForm">
+    <Position X="23.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAUAIACiDEILBeBMADGIQASAVQAAAAAAAgAAAQEAAY=</HashCode>
+      <FileName>AllDoctorsAppointmentsFormForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.AllPatientProcedureForm">
+    <Position X="12.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQEIAAgDAIBBeBMACkIgAzAABAAAAAAACCCAQBAQQ=</HashCode>
+      <FileName>AllPatientProcedureForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.Course_backupDataSet">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="DoctorApp.Course_backupDataSet.Drug_directoryRowChangeEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Delegate Name="DoctorApp.Course_backupDataSet.PatientsRowChangeEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Delegate Name="DoctorApp.Course_backupDataSet.ProceduresRowChangeEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Class Name="DoctorApp.Course_backupDataSet._Doctor_s_appointmentsDataTable" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.DoctorsRowChangeEvent" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.Prescribed_medicationsRowChangeEvent" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.Procedures_directoryRowChangeEvent" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.PatientsRow" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.Prescribed_medicationsRow" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.Procedures_directoryDataTable" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.ProceduresRow" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet._Patient_s_drugsDataTable" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Delegate Name="DoctorApp.Course_backupDataSet.DoctorsRowChangeEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Class Name="DoctorApp.Course_backupDataSet._Well_being_recordsRowChangeEvent" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.DoctorsDataTable" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.Prescribed_medicationsDataTable" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.Medications_takenRow" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Delegate Name="DoctorApp.Course_backupDataSet._Well_being_recordsRowChangeEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Class Name="DoctorApp.Course_backupDataSet.Medications_takenRowChangeEvent" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.PatientsDataTable" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet._Patient_s_drugsRowChangeEvent" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet._Doctor_s_appointmentsRowChangeEvent" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.PatientsRowChangeEvent" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.Procedures_directoryRow" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet._Well_being_recordsRow" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet._Doctor_s_appointmentsRow" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.Drug_directoryRow" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Delegate Name="DoctorApp.Course_backupDataSet.Procedures_directoryRowChangeEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Class Name="DoctorApp.Course_backupDataSet.DoctorsRow" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.ProceduresRowChangeEvent" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Delegate Name="DoctorApp.Course_backupDataSet.Medications_takenRowChangeEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Class Name="DoctorApp.Course_backupDataSet._Patient_s_drugsRow" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Delegate Name="DoctorApp.Course_backupDataSet._Patient_s_drugsRowChangeEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Delegate Name="DoctorApp.Course_backupDataSet.Prescribed_medicationsRowChangeEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Class Name="DoctorApp.Course_backupDataSet._Well_being_recordsDataTable" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.Drug_directoryDataTable" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.ProceduresDataTable" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.Medications_takenDataTable" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Class Name="DoctorApp.Course_backupDataSet.Drug_directoryRowChangeEvent" Collapsed="true">
+        <TypeIdentifier />
+      </Class>
+      <Delegate Name="DoctorApp.Course_backupDataSet._Doctor_s_appointmentsRowChangeEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>CAAAIIgAQwCAIILwJEBCdAABEAkCQJiABkBiBDEABZA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.DataBaseConnection">
+    <Position X="5.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.PatientProcedure">
+    <Position X="14.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQQAAgAgAAAAAAAAAAEAAAAQAACAAAAEACAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.DoctorAppointment">
+    <Position X="18" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAQQAAgAFAAAAAAAAACAAAQAQABAAAAhEADAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.Patient">
+    <Position X="16.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAgAAEAAAUAAQABCAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.Doctor">
+    <Position X="14.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAgAAEAAAUAAQABCAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.PatientDrug">
+    <Position X="18" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAgAAAAAAAAAAAAAAAAAAAAAAAQAAAAEA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.PrescribedMedication">
+    <Position X="19.75" Y="9.75" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="DoctorApp.PrescribedMedication.Meals" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>DataBaseConnection.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AIAAAEIAAABAgAAAEAAAAAAAAAAAIABABEIABAEAAAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.Drug">
+    <Position X="16.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAgAAEAAAAAAQAQAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.Procedure">
+    <Position X="18" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAEAAAAAAQAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>DataBaseConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.DoctorMainForm">
+    <Position X="14.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQDAAACgASDQAAEABACAACACABAiAAQABBBAEAAAQAQ=</HashCode>
+      <FileName>DoctorMainForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.DoctorsChenger">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAQAIAAgDAIBQeBIACEIIISCAAAAgAQAABEAAQBEAQ=</HashCode>
+      <FileName>DoctorsChenger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.DrugsChangerForm">
+    <Position X="16.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAQAIAAgDBIBgeAIACEIAASAAAEAAAAAABAAAQRAAw=</HashCode>
+      <FileName>DrugsChangerForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.GenerateMD5Form">
+    <Position X="11" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAACAAABAAAACAAAASAAAEAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>GenerateMD5Form.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.LoginForm">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Class Name="DoctorApp.LoginForm.comboBoxItem" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>LoginForm.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAABAQAACIAAACBAAIAAAAAUAQAAAAAAA=</HashCode>
+      <FileName>LoginForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.PatientsChengerForm">
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAUAIIAgDAIBAeBoACEIAATCAAAAAAQBAAAQCQBAAQ=</HashCode>
+      <FileName>PatientsChengerForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.ProceduresChengerForm">
+    <Position X="5.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAIAAgDBABAeAIACMKBASAAAAAAAAAEAAAQYBAAQ=</HashCode>
+      <FileName>ProceduresChengerForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.Course_backupDataSetTableAdapters.DoctorsTableAdapter">
+    <Position X="11" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EASAAGAAEAAAAAcAIAAAAAAAACEICAAAAAAAAAAABBA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.Course_backupDataSetTableAdapters.Doctor_s_appointmentsTableAdapter">
+    <Position X="25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EASAAGAAEAAACAcAIAAAAAAAACEICAAAAAAAEAAABBA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.Course_backupDataSetTableAdapters.Drug_directoryTableAdapter">
+    <Position X="25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EASAAGAAEAAAAAcAIAAAAAAAACEICAAAAAAAAAAABBA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.Course_backupDataSetTableAdapters.Medications_takenTableAdapter">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EASAAGAAEAAAAAcAIAAAAAAAACEICAAAAAAAAAAABBA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.Course_backupDataSetTableAdapters.PatientsTableAdapter">
+    <Position X="4" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EASAAGAAEAAAAAcAIAAAAAAAACEICAAAAAAAAAAABBA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.Course_backupDataSetTableAdapters.Patient_s_drugsTableAdapter">
+    <Position X="26.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EASAAGAAEAAAAAcAIAAAAAAAACEICAAAAAAAAAAABBA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.Course_backupDataSetTableAdapters.Prescribed_medicationsTableAdapter">
+    <Position X="18" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EASAAGAAEAAAAAcAIAAAAAAAACEICAAAAAAAAAAABBA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.Course_backupDataSetTableAdapters.ProceduresTableAdapter">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EASAAGAAEAAACAcAIAAAAAAAACEICAAAEAAAAAAABBA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.Course_backupDataSetTableAdapters.Procedures_directoryTableAdapter">
+    <Position X="21.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EASAAGAAEAAAAAcAIAAAAAAAACEICAAAAAAAAAAABBA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.Course_backupDataSetTableAdapters.Well_being_recordsTableAdapter">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EASAAGAAEAAAAAcAIAAAAAAAACEICAAAAAAAAAAABBA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DoctorApp.Course_backupDataSetTableAdapters.TableAdapterManager">
+    <Position X="7.5" Y="6.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="DoctorApp.Course_backupDataSetTableAdapters.TableAdapterManager.UpdateOrderOption" Collapsed="true">
+        <TypeIdentifier />
+      </Enum>
+      <Class Name="DoctorApp.Course_backupDataSetTableAdapters.TableAdapterManager.SelfReferenceComparer" Collapsed="true">
+        <TypeIdentifier />
+        <Lollipop Position="0.2" />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>EQIAgCRAAABABgExoCABMgAoAAACoAAAAAQAEQAAFAQ=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
