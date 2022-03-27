@@ -16,11 +16,17 @@ namespace NewPatientApp
         {
             get { return dataGridView; }
         }
+        
         public DataGridForm(string FormName, bool readOnly = true)
         {
             InitializeComponent();
-            Name = FormName;
+            Text = FormName;
             dataGridView.ReadOnly = readOnly;
+        }
+
+        private void DataGridForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -116,7 +116,7 @@
             this.Name = "AddWellBeingForm";
             this.Padding = new System.Windows.Forms.Padding(0, 0, 15, 15);
             this.ShowIcon = false;
-            this.Text = "AddWellBeingForm";
+            this.Text = "Добавить состояние здоровья";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AddWellBeingForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown)).EndInit();
             this.ResumeLayout(false);

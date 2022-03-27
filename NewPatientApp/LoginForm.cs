@@ -48,19 +48,29 @@ namespace NewPatientApp
         public LoginForm()
         {
             InitializeComponent();
-            using (var connection = new SqlConnection(DataBaseConnection.ConnectionString))
+            try
             {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand(
-                    @"Select p.Name, p.Surname, p.[Middle name], p.ID from Patients as p", connection);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                using (var connection = new SqlConnection(DataBaseConnection.ConnectionString))
                 {
-                    string s = ((int)dr["ID"]).ToString() + ", " +  dr["Surname"].ToString() + "  " + dr["Name"].ToString();
-                    if (dr["Middle name"] != null)
-                        s += " " + dr["Middle name"];
-                    comboBox1.Items.Add(new comboBoxItem { Tag=(int)dr["ID"], Text = s});
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand(
+                        @"Select p.Name, p.Surname, p.[Middle name], p.ID from Patients as p", connection);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        string s = ((int) dr["ID"]).ToString() + ", " + dr["Surname"].ToString() + "  " +
+                                   dr["Name"].ToString();
+                        if (dr["Middle name"] != null)
+                            s += " " + dr["Middle name"];
+                        comboBox1.Items.Add(new comboBoxItem {Tag = (int) dr["ID"], Text = s});
+                    }
                 }
+            }
+            catch (Microsoft.Data.SqlClient.SqlException ex)
+            {
+                MessageBox.Show($"Ошибка подключения к серверу, проверьте подключение к интеренету\n\n{ex.Message}", "Ошибка подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+                Application.Exit();
             }
         }
 

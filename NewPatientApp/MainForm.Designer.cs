@@ -38,6 +38,8 @@
             this.переченьПроцедурToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.переченьЛекарсовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.переченьДокторовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.полныйСписокПроцедурПациентаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПриложенииToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonAddWellBeing = new System.Windows.Forms.Button();
@@ -54,8 +56,9 @@
             this.dataGridViewPrescribedMedications = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.полныйСписокПроцедурПациентаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.списокПокупокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.отчетОСамочувствииToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.отчетПринимаемыхЛекарствToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDrugRunningOut)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPrescribedMedications)).BeginInit();
@@ -103,6 +106,10 @@
             // 
             // отчетыToolStripMenuItem
             // 
+            this.отчетыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.списокПокупокToolStripMenuItem,
+            this.отчетОСамочувствииToolStripMenuItem,
+            this.отчетПринимаемыхЛекарствToolStripMenuItem});
             this.отчетыToolStripMenuItem.Name = "отчетыToolStripMenuItem";
             this.отчетыToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
             this.отчетыToolStripMenuItem.Text = "Отчеты";
@@ -139,6 +146,20 @@
             this.переченьДокторовToolStripMenuItem.Size = new System.Drawing.Size(314, 22);
             this.переченьДокторовToolStripMenuItem.Text = "Перечень докторов";
             this.переченьДокторовToolStripMenuItem.Click += new System.EventHandler(this.переченьДокторовToolStripMenuItem_Click);
+            // 
+            // полныйСписокПроцедурПациентаToolStripMenuItem
+            // 
+            this.полныйСписокПроцедурПациентаToolStripMenuItem.Name = "полныйСписокПроцедурПациентаToolStripMenuItem";
+            this.полныйСписокПроцедурПациентаToolStripMenuItem.Size = new System.Drawing.Size(314, 22);
+            this.полныйСписокПроцедурПациентаToolStripMenuItem.Text = "Полный список процедур пациента";
+            this.полныйСписокПроцедурПациентаToolStripMenuItem.Click += new System.EventHandler(this.полныйСписокПроцедурПациентаToolStripMenuItem_Click);
+            // 
+            // полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem
+            // 
+            this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem.Name = "полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem";
+            this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem.Size = new System.Drawing.Size(314, 22);
+            this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem.Text = "Полный список записей ко врачу пациента";
+            this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem.Click += new System.EventHandler(this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem_Click);
             // 
             // справкаToolStripMenuItem
             // 
@@ -298,19 +319,26 @@
             this.dataGridViewTextBoxColumn2.ReadOnly = true;
             this.dataGridViewTextBoxColumn2.Width = 300;
             // 
-            // полныйСписокПроцедурПациентаToolStripMenuItem
+            // списокПокупокToolStripMenuItem
             // 
-            this.полныйСписокПроцедурПациентаToolStripMenuItem.Name = "полныйСписокПроцедурПациентаToolStripMenuItem";
-            this.полныйСписокПроцедурПациентаToolStripMenuItem.Size = new System.Drawing.Size(314, 22);
-            this.полныйСписокПроцедурПациентаToolStripMenuItem.Text = "Полный список процедур пациента";
-            this.полныйСписокПроцедурПациентаToolStripMenuItem.Click += new System.EventHandler(this.полныйСписокПроцедурПациентаToolStripMenuItem_Click);
+            this.списокПокупокToolStripMenuItem.Name = "списокПокупокToolStripMenuItem";
+            this.списокПокупокToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.списокПокупокToolStripMenuItem.Text = "Список покупок";
+            this.списокПокупокToolStripMenuItem.Click += new System.EventHandler(this.списокПокупокToolStripMenuItem_Click);
             // 
-            // полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem
+            // отчетОСамочувствииToolStripMenuItem
             // 
-            this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem.Name = "полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem";
-            this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem.Size = new System.Drawing.Size(314, 22);
-            this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem.Text = "Полный список записей ко врачу пациента";
-            this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem.Click += new System.EventHandler(this.полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem_Click);
+            this.отчетОСамочувствииToolStripMenuItem.Name = "отчетОСамочувствииToolStripMenuItem";
+            this.отчетОСамочувствииToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.отчетОСамочувствииToolStripMenuItem.Text = "Отчет о самочувствии";
+            this.отчетОСамочувствииToolStripMenuItem.Click += new System.EventHandler(this.отчетОСамочувствииToolStripMenuItem_Click);
+            // 
+            // отчетПринимаемыхЛекарствToolStripMenuItem
+            // 
+            this.отчетПринимаемыхЛекарствToolStripMenuItem.Name = "отчетПринимаемыхЛекарствToolStripMenuItem";
+            this.отчетПринимаемыхЛекарствToolStripMenuItem.Size = new System.Drawing.Size(263, 22);
+            this.отчетПринимаемыхЛекарствToolStripMenuItem.Text = "Отчет о принимаемых лекарствах";
+            this.отчетПринимаемыхЛекарствToolStripMenuItem.Click += new System.EventHandler(this.отчетПринимаемыхЛекарствToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -378,6 +406,9 @@
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private ToolStripMenuItem полныйСписокПроцедурПациентаToolStripMenuItem;
         private ToolStripMenuItem полныйСписокЗаписейКоВрачуПациентаToolStripMenuItem;
+        private ToolStripMenuItem списокПокупокToolStripMenuItem;
+        private ToolStripMenuItem отчетОСамочувствииToolStripMenuItem;
+        private ToolStripMenuItem отчетПринимаемыхЛекарствToolStripMenuItem;
     }
 }
 

@@ -113,7 +113,7 @@
             this.Name = "MarkMedicineTakenForm";
             this.Padding = new System.Windows.Forms.Padding(0, 0, 15, 15);
             this.ShowIcon = false;
-            this.Text = "AddWellBeingForm";
+            this.Text = "Отметить принятое лекарство";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AddPatientDrag_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();

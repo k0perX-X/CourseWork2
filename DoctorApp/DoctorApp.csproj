@@ -55,6 +55,41 @@
     <Compile Include="AboutBox1.Designer.cs">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddDoctorsAppointmentsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddDoctorsAppointmentsForm.Designer.cs">
+      <DependentUpon>AddDoctorsAppointmentsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddPatientProcedureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddPatientProcedureForm.Designer.cs">
+      <DependentUpon>AddPatientProcedureForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddPrescribedMedicationsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddPrescribedMedicationsForm.Designer.cs">
+      <DependentUpon>AddPrescribedMedicationsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AllDoctorsAppointmentsFormForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AllDoctorsAppointmentsFormForm.Designer.cs">
+      <DependentUpon>AllDoctorsAppointmentsFormForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AllPatientProcedureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AllPatientProcedureForm.Designer.cs">
+      <DependentUpon>AllPatientProcedureForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Course_backupDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Course_backupDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DataBaseConnection.cs" />
     <Compile Include="DoctorMainForm.cs">
       <SubType>Form</SubType>
@@ -62,22 +97,82 @@
     <Compile Include="DoctorMainForm.Designer.cs">
       <DependentUpon>DoctorMainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DoctorsChenger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DoctorsChenger.Designer.cs">
+      <DependentUpon>DoctorsChenger.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DrugsChangerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DrugsChangerForm.Designer.cs">
+      <DependentUpon>DrugsChangerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenerateMD5Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerateMD5Form.Designer.cs">
+      <DependentUpon>GenerateMD5Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PatientsChengerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PatientsChengerForm.Designer.cs">
+      <DependentUpon>PatientsChengerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProceduresChengerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProceduresChengerForm.Designer.cs">
+      <DependentUpon>ProceduresChengerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AboutBox1.resx">
       <DependentUpon>AboutBox1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AddDoctorsAppointmentsForm.resx">
+      <DependentUpon>AddDoctorsAppointmentsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddPatientProcedureForm.resx">
+      <DependentUpon>AddPatientProcedureForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddPrescribedMedicationsForm.resx">
+      <DependentUpon>AddPrescribedMedicationsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AllDoctorsAppointmentsFormForm.resx">
+      <DependentUpon>AllDoctorsAppointmentsFormForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AllPatientProcedureForm.resx">
+      <DependentUpon>AllPatientProcedureForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DoctorMainForm.resx">
       <DependentUpon>DoctorMainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DoctorsChenger.resx">
+      <DependentUpon>DoctorsChenger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DrugsChangerForm.resx">
+      <DependentUpon>DrugsChangerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerateMD5Form.resx">
+      <DependentUpon>GenerateMD5Form.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PatientsChengerForm.resx">
+      <DependentUpon>PatientsChengerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProceduresChengerForm.resx">
+      <DependentUpon>ProceduresChengerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -88,6 +183,18 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Course_backupDataSet.xsc">
+      <DependentUpon>Course_backupDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Course_backupDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Course_backupDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Course_backupDataSet.xss">
+      <DependentUpon>Course_backupDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\DataSources\Patient.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -103,6 +210,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="medical-history.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -14,7 +14,7 @@ namespace DoctorApp
 {
     public partial class LoginForm : Form
     {
-        private static string CreateMD5(string input)
+        public static string CreateMD5(string input)
         {
             // Use input string to calculate MD5 hash
             using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
@@ -46,19 +46,29 @@ namespace DoctorApp
         public LoginForm()
         {
             InitializeComponent();
-            using (var connection = new SqlConnection(DataBaseConnection.ConnectionString))
+            try
             {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand(
-                    @"Select p.Name, p.Surname, p.[Middle name], p.ID from Doctors as p", connection);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
+                using (var connection = new SqlConnection(DataBaseConnection.ConnectionString))
                 {
-                    string s = ((int)dr["ID"]).ToString() + ", " +  dr["Surname"].ToString() + "  " + dr["Name"].ToString();
-                    if (dr["Middle name"] != null)
-                        s += " " + dr["Middle name"];
-                    comboBox1.Items.Add(new comboBoxItem { Tag=(int)dr["ID"], Text = s});
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand(
+                        @"Select p.Name, p.Surname, p.[Middle name], p.ID from Doctors as p", connection);
+                    var dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        string s = ((int) dr["ID"]).ToString() + ", " + dr["Surname"].ToString() + "  " +
+                                   dr["Name"].ToString();
+                        if (dr["Middle name"] != null)
+                            s += " " + dr["Middle name"];
+                        comboBox1.Items.Add(new comboBoxItem {Tag = (int) dr["ID"], Text = s});
+                    }
                 }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show($"Ошибка подключения к серверу, проверьте подключение к интеренету\n\n{ex.Message}", "Ошибка подключения", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
+                Application.Exit();
             }
         }
 

@@ -160,4 +160,15 @@ namespace DoctorApp
             return s;
         }
     }
+
+    public class Procedure
+    {
+        public int ID;
+        public string Name;
+        public string Note;
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
 }

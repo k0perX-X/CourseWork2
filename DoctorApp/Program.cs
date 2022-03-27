@@ -26,6 +26,10 @@ namespace DoctorApp
             catch (InvalidOperationException exception)
             {
             }
+            catch (System.Data.NoNullAllowedException exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
     }
 }

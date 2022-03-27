@@ -1,10 +1,18 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Windows.Forms;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-
+using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Xml.Serialization;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
 namespace NewPatientApp
 {
     public partial class MainForm : Form
@@ -12,13 +20,13 @@ namespace NewPatientApp
         public static Patient? SelectedPatient;
         public static List<PatientProcedure> PatientProceduresList = new List<PatientProcedure>();
         public static List<DoctorAppointment> DoctorAppointmentsList = new List<DoctorAppointment>();
-        public static List<PatientDrug> DrugRunningOut = new List<PatientDrug>();
         public static List<PatientDrug> PatientDrugs = new List<PatientDrug>();
         public static List<PrescribedMedication> PrescribedMedications = new();
         public static List<Drug> Drugs = new List<Drug>();
 
         public void LoadDrugs()
         {
+            Drugs = new List<Drug>();
             using (var connection = new SqlConnection(DataBaseConnection.ConnectionString))
             {
                 connection.Open();
@@ -29,17 +37,17 @@ namespace NewPatientApp
                     var o = new Drug()
                     {
                         ID = (int) dr["ID"],
-                        Name = (string) dr["Name"],
-                        Note = (string) dr["Note"] is DBNull ? null : (string?) dr["Note"],
+                        Name = (string) dr["Drug Name"],
+                        Note = dr["Note"] is DBNull ? null : (string?) dr["Note"],
                         ExpirationDate = (int) dr["Expiration date"]
                     };
                     Drugs.Add(o);
                 }
             }
         }
-
         public void LoadProcedures()
         {
+            PatientProceduresList = new List<PatientProcedure>();
             using (var connection = new SqlConnection(DataBaseConnection.ConnectionString))
             {
                 connection.Open();
@@ -77,6 +85,7 @@ namespace NewPatientApp
         }
         public void LoadDoctorAppointments()
         {
+            DoctorAppointmentsList = new List<DoctorAppointment>();
             using (var connection = new SqlConnection(DataBaseConnection.ConnectionString))
             {
                 connection.Open();
@@ -128,19 +137,18 @@ namespace NewPatientApp
                 dateTimes[i] = DoctorAppointmentsList[i].DateTime;
             monthCalendarDoctor.BoldedDates = dateTimes;
         }
-
         public void LoadDrugRunningOut()
         {
+            PatientDrugs = new List<PatientDrug>();
             using (var connection = new SqlConnection(DataBaseConnection.ConnectionString))
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand(
-                    @"Select 
-	                            pd.ID as pdID, pd.[Date of manufacture] as DateOfManufacture, 
-	                            pd.Remaining as Remaining
-                            from 
-	                            (Select * from [Patient's drugs]
-	                            where [Patient ID] = @SelectedPatient) as pd", connection);
+                    @"Select [Drug ID] as DrugID, SUM(Remaining) as Remaining, 
+                                MIN([Date of manufacture]) as DateOfManufacture
+                            from (Select * from [Patient's drugs]
+                            where [Patient ID] = 2 and Remaining > 0) as pd
+                            group by [Drug ID]", connection);
                 cmd.Parameters.AddWithValue("@SelectedPatient", (int)SelectedPatient);
                 Dictionary<int, (PatientDrug p, bool r, bool d)> dic = new();
                 var dr = cmd.ExecuteReader();
@@ -148,7 +156,6 @@ namespace NewPatientApp
                 {
                     var o = new PatientDrug()
                     {
-                        ID = (int) dr["pdID"],
                         Drug = Drugs.Single(b => b.ID == (int)dr["DrugID"]),
                         DateOfManufacture = (DateTime) dr["DateOfManufacture"],
                         Remaining = (int) dr["Remaining"]
@@ -163,73 +170,63 @@ namespace NewPatientApp
                     if (prescribedMedications.Count() != 0)
                         foreach (var prescribedMedication in prescribedMedications)
                             if (prescribedMedication.LeftTakeMedicine > patientDrug.Remaining)
-                                dic.Add(patientDrug.Drug.ID, (patientDrug, true, false));
-                }
-                cmd = new SqlCommand(
-                    @"Select 
-	                            pd.ID as pdID, pd.[Date of manufacture] as DateOfManufacture, 
-	                            pd.Remaining as Remaining, dd.[Drug Name] as Name, dd.ID as DrugID
-                            from 
-	                            (Select * from [Patient's drugs]
-	                            where [Patient ID] = @SelectedPatient and Remaining > 0) as pd
-                            left join 
-	                            [Drug directory] as dd
-                            on pd.[Drug ID] = dd.ID
-                            where DATEDIFF(MM, 
-	                            DATEADD(dd, dd.[Expiration date], pd.[Date of manufacture]), 
-	                            GETDATE()) > -1
-                            and DATEDIFF(MM, 
-	                            DATEADD(dd, dd.[Expiration date], pd.[Date of manufacture]), 
-	                            GETDATE()) <= 0;", connection);
-                cmd.Parameters.AddWithValue("@SelectedPatient", (int)SelectedPatient);
-                dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    var o = new PatientDrug()
+                                if (!dic.ContainsKey(patientDrug.Drug.ID))
+                                    dic.Add(patientDrug.Drug.ID, (patientDrug, true, false));
+                    if (DateTime.Now.Subtract(patientDrug.DateOfManufacture).Days >
+                        (patientDrug.Drug.ExpirationDate - 1) * 30)
                     {
-                        ID = (int)dr["pdID"],
-                        Drug = Drugs.Single(b => b.ID == (int)dr["DrugID"]),
-                        DateOfManufacture = (DateTime)dr["DateOfManufacture"],
-                        Remaining = (int)dr["Remaining"]
-                    };
-                    if (dic.ContainsKey(o.ID))
-                        dic[o.ID] = (o, true, true);
-                    else
-                    {
-                        DrugRunningOut.Add(o);
-                        dic.Add(o.ID, (o, false, true));
+                        if (dic.ContainsKey(patientDrug.Drug.ID))
+                            dic[patientDrug.Drug.ID] = (patientDrug, true, true);
+                        else
+                            dic.Add(patientDrug.Drug.ID, (patientDrug, false, true));
                     }
                 }
-
+                foreach (PrescribedMedication prescribedMedication in PrescribedMedications)
+                {
+                    if (PatientDrugs.Count(b => b.Drug.ID == prescribedMedication.DrugID) == 0)
+                    {
+                        var o = new PatientDrug()
+                        {
+                            DateOfManufacture = DateTime.Now,
+                            Drug = Drugs.Single(b => b.ID == prescribedMedication.DrugID),
+                            Remaining = 0
+                        };
+                        dic.Add(o.Drug.ID, (o, true, false));
+                    }
+                }
+                dataGridViewDrugRunningOut.Rows.Clear();
                 foreach (KeyValuePair<int, (PatientDrug p, bool r, bool d)> keyValuePair in dic)
                 {
                     if (keyValuePair.Value.r & keyValuePair.Value.d)
                     {
-                        var row = new DataGridViewRow();
-                        row.Cells[0].Value = keyValuePair.Value.p.Drug.Name;
-                        row.Cells[1].Value = "Осталось " + keyValuePair.Value.p.Remaining + " доз и истекает срок годности";
-                        dataGridViewDrugRunningOut.Rows.Add(row);
+                        dataGridViewDrugRunningOut.Rows.Add( new object[]
+                        {
+                            keyValuePair.Value.p.Drug.Name, 
+                            "Осталось " + keyValuePair.Value.p.Remaining + " доз и истекает срок годности"
+                        });
                     }
                     else if (keyValuePair.Value.r)
                     {
-                        var row = new DataGridViewRow();
-                        row.Cells[0].Value = keyValuePair.Value.p.Drug.Name;
-                        row.Cells[1].Value = "Осталось " + keyValuePair.Value.p.Remaining + " доз";
-                        dataGridViewDrugRunningOut.Rows.Add(row);
+                        dataGridViewDrugRunningOut.Rows.Add(new object[]
+                        {
+                            keyValuePair.Value.p.Drug.Name,
+                            "Осталось " + keyValuePair.Value.p.Remaining + " доз",
+                        });
                     }
                     else
                     {
-                        var row = new DataGridViewRow();
-                        row.Cells[0].Value = keyValuePair.Value.p.Drug.Name;
-                        row.Cells[1].Value = "Истекает срок годности";
-                        dataGridViewDrugRunningOut.Rows.Add(row);
+                        dataGridViewDrugRunningOut.Rows.Add( new object[]
+                        {
+                            keyValuePair.Value.p.Drug.Name,
+                            "Истекает срок годности"
+                        });
                     }
                 }
             }
         }
-
         public void LoadPrescribedMedications()
         {
+            PrescribedMedications = new List<PrescribedMedication>();
             using (var connection = new SqlConnection(DataBaseConnection.ConnectionString))
             {
                 connection.Open();
@@ -238,8 +235,8 @@ namespace NewPatientApp
 	                            [ID Doctor's appointments], PrescribedMedicationsID,
 	                            [Reception time during the day], [Reception time in the evening],
 	                            [Reception time in the morning], [Take before meals], [Take after meals],
-	                            [Take with meals], PrescribedMedicationsNote, DrugName, DrugNote, DrugID
-                                TakeMedicineBeforeDate
+	                            [Take with meals], PrescribedMedicationsNote, DrugName, DrugNote, DrugID,
+                                TakeMedicineBeforeDate, Note
                             from 
 	                            (Select * from [Doctor's appointments]
 	                            where [Patient ID] = @SelectedPatient) as da
@@ -302,36 +299,36 @@ namespace NewPatientApp
 
             foreach (PrescribedMedication prescribedMedication in PrescribedMedications)
             {
-                var row = new DataGridViewRow();
-                row.Cells[0].Value = prescribedMedication.DrugName;
-                row.Cells[1].Value = "Принимать";
+                var row = new dynamic[2];
+                row[0] = prescribedMedication.DrugName;
+                row[1] = "Принимать";
                 bool changed = false;
                 if (prescribedMedication.ReceptionTimeInTheMorning)
                 {
-                    row.Cells[1].Value += " утром";
+                    row[1] += " утром";
                     changed = true;
                 }
 
                 if (prescribedMedication.ReceptionTimeDuringTheDay)
                 {
-                    row.Cells[1].Value += changed ? ", днем" : " днем";
+                    row[1] += changed ? ", днем" : " днем";
                     changed = true;
                 }
                 if (prescribedMedication.ReceptionTimeInTheEvening)
-                    row.Cells[1].Value += changed ? ", вечером" : " вечером";
+                    row[1] += changed ? ", вечером" : " вечером";
                 switch (prescribedMedication.TakeMeals)
                 {
                     case PrescribedMedication.Meals.TakeAfterMeals:
-                        row.Cells[1].Value += " после еды";
+                        row[1] += " после еды";
                         break;
                     case PrescribedMedication.Meals.TakeBeforeMeals:
-                        row.Cells[1].Value += " до еды";
+                        row[1] += " до еды";
                         break;
                     case PrescribedMedication.Meals.TakeWithMeals:
-                        row.Cells[1].Value += " во время еды";
+                        row[1] += " во время еды";
                         break;
                 }
-                dataGridViewDrugRunningOut.Rows.Add(row);
+                dataGridViewPrescribedMedications.Rows.Add(row);
             }
         }
 
@@ -361,7 +358,7 @@ namespace NewPatientApp
 
         private void выбратьПациентаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Restart();
+            System.Windows.Forms.Application.Restart();
         }
 
         private void переченьПроцедурToolStripMenuItem_Click(object sender, EventArgs e)
@@ -387,7 +384,7 @@ namespace NewPatientApp
 
         private void переченьЛекарсовToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var dgf = new DataGridForm("Лекарства в наличии");
+            var dgf = new DataGridForm("Перечень лекарств");
             dgf.DataGridView.ColumnCount = 3;
             dgf.DataGridView.Columns[0].Name = "Название лекарства";
             dgf.DataGridView.Columns[1].Name = "Описание";
@@ -432,11 +429,15 @@ namespace NewPatientApp
         private void buttonAddPatientDrag_Click(object sender, EventArgs e)
         {
             new AddPatientDragForm().ShowDialog();
+            Visible = false;
+            Visible = true;
+            LoadDrugRunningOut();
         }
 
         private void buttonPatientDragList_Click(object sender, EventArgs e)
         {
-            var dgf = new DataGridForm("Все лекарства выписываемые поликлиникой");
+            
+            var dgf = new DataGridForm("Лекарства пациента");
             dgf.DataGridView.ColumnCount = 4;
             dgf.DataGridView.Columns[0].Name = "Название лекарства";
             dgf.DataGridView.Columns[1].Name = "Описание";
@@ -464,6 +465,9 @@ namespace NewPatientApp
         private void buttonMarkMedicineTaken_Click(object sender, EventArgs e)
         {
             new MarkMedicineTakenForm().ShowDialog();
+            Visible = false;
+            Visible = true;
+            LoadDrugRunningOut();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -473,7 +477,7 @@ namespace NewPatientApp
         private void полныйСписокПроцедурПациентаToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var dgf = new DataGridForm("Все записи процедур");
-            dgf.DataGridView.ColumnCount = 5;
+            dgf.DataGridView.ColumnCount = 4;
             dgf.DataGridView.Columns[0].Name = "Посещено";
             dgf.DataGridView.Columns[1].Name = "Название процедуры";
             dgf.DataGridView.Columns[2].Name = "Дата и время записи";
@@ -506,10 +510,10 @@ namespace NewPatientApp
             dgf.DataGridView.Columns[2].Name = "Дата и время записи";
             dgf.DataGridView.Columns[3].Name = "Заметка";
             dgf.DataGridView.Columns[4].Name = "Температура пациента";
-            dgf.DataGridView.Columns.Add(new DataGridViewButtonColumn());
-            dgf.DataGridView.Columns[5].Name = "Cкачать Word файл";
-            dgf.DataGridView.CellClick +=
-                new DataGridViewCellEventHandler(dataGridView_CellClick);
+            //dgf.DataGridView.Columns.Add(new DataGridViewButtonColumn());
+            //dgf.DataGridView.Columns[5].Name = "Cкачать Word файл";
+            //dgf.DataGridView.CellClick +=
+            //    new DataGridViewCellEventHandler(dataGridView_CellClick);
             foreach (DoctorAppointment doctorAppointment in DoctorAppointmentsList)
             {
                 dgf.DataGridView.Rows.Add(new object[]
@@ -520,13 +524,268 @@ namespace NewPatientApp
                         doctorAppointment.DoctorSurname + " " + doctorAppointment.DoctorName + doctorAppointment.DoctorMiddleName,
                     doctorAppointment.DateTime.ToString("d MMM yyyy HH:mm"),
                     doctorAppointment.Note ?? "",
-                    doctorAppointment.PatientTemperature.ToString() ?? "",
-                    "Cкачать Word файл"
+                    doctorAppointment.PatientTemperature.ToString() ?? ""
                 });
             }
 
             dgf.ShowDialog();
 
+        }
+
+        private void списокПокупокToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+
+            // Create a spreadsheet document by supplying the filepath.
+            // By default, AutoSave = true, Editable = true, and Type = xlsx.
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                using (SpreadsheetDocument spreadsheetDocument =
+                       SpreadsheetDocument.Create(saveFileDialog.FileName, SpreadsheetDocumentType.Workbook))
+                {
+                    WorkbookPart workbookpart = spreadsheetDocument.AddWorkbookPart();
+                    workbookpart.Workbook = new Workbook();
+                    WorksheetPart worksheetPart = workbookpart.AddNewPart<WorksheetPart>();
+                    worksheetPart.Worksheet = new Worksheet(new SheetData());
+                    Sheets sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets());
+                    Sheet sheet = new Sheet()
+                    {
+                        Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart),
+                        SheetId = 1,
+                        Name = "Список покупок"
+                    };
+                    sheets.Append(sheet);
+                    SheetData sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
+                    
+                    for (UInt32 rowIndex = 1; rowIndex <= dataGridViewDrugRunningOut.Rows.Count; rowIndex++)
+                    {
+                        var row = new Row() { RowIndex = rowIndex };
+
+                        var cell = new Cell() { CellReference = "A" + rowIndex };
+                        cell.CellValue =
+                            new CellValue((string) dataGridViewDrugRunningOut.Rows[(int) rowIndex - 1].Cells[0].Value);
+                        cell.DataType = CellValues.String;
+
+                        row.Append(cell);
+                        cell = new Cell() { CellReference = "B" + rowIndex };
+                        cell.CellValue =
+                            new CellValue((string) dataGridViewDrugRunningOut.Rows[(int) rowIndex - 1].Cells[1].Value);
+                        cell.DataType = CellValues.String;
+                        row.Append(cell);
+                        sheetData.Append(row);
+                    }
+                    workbookpart.Workbook.Save();
+                }
+        }
+
+        private void отчетОСамочувствииToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            void report(DateTime firstDateTime, DateTime secondDateTime)
+            {
+                List<WellBeingRecord> records = new List<WellBeingRecord>();
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    using (var connection = new SqlConnection(DataBaseConnection.ConnectionString))
+                    {
+                        connection.Open();
+                        SqlCommand cmd = new SqlCommand(
+                            @"Select ID, DateTime, Temperature, Note
+                                    from [Well-being records]
+                                    where [Patient ID] = @SelectedPatient and
+	                                    DateTime <= @SecondDateTime and 
+	                                    DateTime >= @FirstDateTime", connection);
+                        cmd.Parameters.AddWithValue("@SelectedPatient", (int) SelectedPatient);
+                        cmd.Parameters.AddWithValue("@FirstDateTime", firstDateTime);
+                        cmd.Parameters.AddWithValue("@SecondDateTime", secondDateTime);
+                        var dr = cmd.ExecuteReader();
+                        while (dr.Read())
+                        {
+                            var o = new WellBeingRecord()
+                            {
+                                ID = (int) dr["ID"],
+                                DateTime = (DateTime) dr["DateTime"],
+                                Note = dr["Note"] is DBNull ? null : (string?) dr["Note"],
+                                Temperature = dr["Temperature"] is DBNull ? null : (float) dr["Temperature"]
+                            };
+                            records.Add(o);
+                        }
+                    }
+                    records.Sort((a, b) => (a.DateTime - b.DateTime).Seconds);
+                    using (SpreadsheetDocument spreadsheetDocument =
+                           SpreadsheetDocument.Create(saveFileDialog.FileName, SpreadsheetDocumentType.Workbook))
+                    {
+                        WorkbookPart workbookpart = spreadsheetDocument.AddWorkbookPart();
+                        workbookpart.Workbook = new Workbook();
+                        WorksheetPart worksheetPart = workbookpart.AddNewPart<WorksheetPart>();
+                        worksheetPart.Worksheet = new Worksheet(new SheetData());
+                        Sheets sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets());
+                        Sheet sheet = new Sheet()
+                        {
+                            Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart),
+                            SheetId = 1,
+                            Name = "Отчет о самочувствии"
+                        };
+                        sheets.Append(sheet);
+                        SheetData sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
+                        UInt32 rowIndex = 1;
+                        var row = new Row() { RowIndex = rowIndex };
+                        var cell = new Cell() { CellReference = "A" + rowIndex };
+                        cell.CellValue = new CellValue("Дата");
+                        cell.DataType = CellValues.String;
+                        row.Append(cell);
+                        cell = new Cell() { CellReference = "B" + rowIndex };
+                        cell.CellValue = new CellValue("Температура");
+                        cell.DataType = CellValues.String;
+                        row.Append(cell);
+                        cell = new Cell() { CellReference = "C" + rowIndex };
+                        cell.CellValue = new CellValue("Заметка");
+                        cell.DataType = CellValues.String;
+                        row.Append(cell);
+                        sheetData.Append(row);
+                        rowIndex++;
+
+                        foreach (WellBeingRecord wellBeingRecord in records)
+                        {
+                            row = new Row() { RowIndex = rowIndex };
+                            cell = new Cell() { CellReference = "A" + rowIndex };
+                            CellValue cellValue = new CellValue(wellBeingRecord.DateTime.ToString("f"));
+                            cell.DataType = CellValues.String;
+                            cell.Append(cellValue);
+                            row.Append(cell);
+                            cell = new Cell() { CellReference = "B" + rowIndex };
+                            cell.CellValue = new CellValue(wellBeingRecord.Temperature.ToString() ?? null);
+                            cell.DataType = CellValues.String;
+                            row.Append(cell);
+                            cell = new Cell() { CellReference = "C" + rowIndex };
+                            cell.CellValue = new CellValue(wellBeingRecord.Note);
+                            cell.DataType = CellValues.String;
+                            row.Append(cell);
+                            sheetData.Append(row);
+                            rowIndex++;
+                        }
+                        workbookpart.Workbook.Save();
+                    }
+                }
+            }
+
+            new TimeSpanSelectForm(report).ShowDialog();
+        }
+
+        private void отчетПринимаемыхЛекарствToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            void report(DateTime firstDateTime, DateTime secondDateTime)
+            {
+                List<MedicationTaken> medicationsTaken = new List<MedicationTaken>();
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    using (var connection = new SqlConnection(DataBaseConnection.ConnectionString))
+                    {
+                        connection.Open();
+                        SqlCommand cmd = new SqlCommand(
+                            @"Select ID, [Patient ID], [Drug ID], DateTime, [Reception time in the morning], 
+	                                    [Reception time during the day], [Reception time in the evening]
+                                    from [Medications taken]
+                                    where [Patient ID] = @SelectedPatient and
+	                                    DateTime <= @SecondDateTime and 
+	                                    DateTime >= @FirstDateTime", connection);
+                        cmd.Parameters.AddWithValue("@SelectedPatient", (int)SelectedPatient);
+                        cmd.Parameters.AddWithValue("@FirstDateTime", firstDateTime);
+                        cmd.Parameters.AddWithValue("@SecondDateTime", secondDateTime);
+                        var dr = cmd.ExecuteReader();
+                        while (dr.Read())
+                        {
+                            var o = new MedicationTaken()
+                            {
+                                ID = (int)dr["ID"],
+                                DateTime = (DateTime)dr["DateTime"],
+                                Drug = Drugs.Single(b => b.ID == (int)dr["Drug ID"]),
+                                ReceptionTimeInTheMorning = (bool)dr["Reception time in the morning"],
+                                ReceptionTimeDuringTheDay = (bool)dr["Reception time during the day"],
+                                ReceptionTimeInTheEvening = (bool)dr["Reception time in the evening"],
+                            };
+                            medicationsTaken.Add(o);
+                        }
+                    }
+                    medicationsTaken.Sort((a, b) => (a.DateTime - b.DateTime).Seconds);
+                    using (SpreadsheetDocument spreadsheetDocument =
+                           SpreadsheetDocument.Create(saveFileDialog.FileName, SpreadsheetDocumentType.Workbook))
+                    {
+                        WorkbookPart workbookpart = spreadsheetDocument.AddWorkbookPart();
+                        workbookpart.Workbook = new Workbook();
+                        WorksheetPart worksheetPart = workbookpart.AddNewPart<WorksheetPart>();
+                        worksheetPart.Worksheet = new Worksheet(new SheetData());
+                        Sheets sheets = spreadsheetDocument.WorkbookPart.Workbook.AppendChild<Sheets>(new Sheets());
+                        Sheet sheet = new Sheet()
+                        {
+                            Id = spreadsheetDocument.WorkbookPart.GetIdOfPart(worksheetPart),
+                            SheetId = 1,
+                            Name = "Отчет о самочувствии"
+                        };
+                        sheets.Append(sheet);
+                        SheetData sheetData = worksheetPart.Worksheet.GetFirstChild<SheetData>();
+                        UInt32 rowIndex = 1;
+                        var row = new Row() { RowIndex = rowIndex };
+                        var cell = new Cell() { CellReference = "A" + rowIndex };
+                        cell.CellValue = new CellValue("Дата");
+                        cell.DataType = CellValues.String;
+                        row.Append(cell);
+                        cell = new Cell() { CellReference = "B" + rowIndex };
+                        cell.CellValue = new CellValue("Лекарство");
+                        cell.DataType = CellValues.String;
+                        row.Append(cell);
+                        cell = new Cell() { CellReference = "C" + rowIndex };
+                        cell.CellValue = new CellValue("Принял утром");
+                        cell.DataType = CellValues.String;
+                        row.Append(cell);
+                        cell = new Cell() { CellReference = "D" + rowIndex };
+                        cell.CellValue = new CellValue("Принял днем");
+                        cell.DataType = CellValues.String;
+                        row.Append(cell);
+                        cell = new Cell() { CellReference = "E" + rowIndex };
+                        cell.CellValue = new CellValue("Принял вечером");
+                        cell.DataType = CellValues.String;
+                        row.Append(cell);
+                        sheetData.Append(row);
+                        rowIndex++;
+
+                        foreach (var medicationTaken in medicationsTaken)
+                        {
+                            row = new Row() { RowIndex = rowIndex };
+                            cell = new Cell() { CellReference = "A" + rowIndex };
+                            CellValue cellValue = new CellValue(medicationTaken.DateTime.ToString("f"));
+                            cell.DataType = CellValues.String;
+                            cell.Append(cellValue);
+                            row.Append(cell);
+                            cell = new Cell() { CellReference = "B" + rowIndex };
+                            cell.CellValue = new CellValue(medicationTaken.Drug.Name);
+                            cell.DataType = CellValues.String;
+                            row.Append(cell);
+                            cell = new Cell() { CellReference = "C" + rowIndex };
+                            cell.CellValue = new CellValue(medicationTaken.ReceptionTimeInTheMorning ? "Да" : "Нет");
+                            cell.DataType = CellValues.String;
+                            row.Append(cell);
+                            cell = new Cell() { CellReference = "D" + rowIndex };
+                            cell.CellValue = new CellValue(medicationTaken.ReceptionTimeDuringTheDay ? "Да" : "Нет");
+                            cell.DataType = CellValues.String;
+                            row.Append(cell);
+                            cell = new Cell() { CellReference = "E" + rowIndex };
+                            cell.CellValue = new CellValue(medicationTaken.ReceptionTimeInTheEvening ? "Да" : "Нет");
+                            cell.DataType = CellValues.String;
+                            row.Append(cell);
+                            sheetData.Append(row);
+                            rowIndex++;
+                        }
+                        workbookpart.Workbook.Save();
+                    }
+                }
+            }
+
+            new TimeSpanSelectForm(report).ShowDialog();
         }
     }
 }

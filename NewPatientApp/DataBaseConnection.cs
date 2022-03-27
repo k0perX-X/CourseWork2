@@ -88,7 +88,6 @@ namespace NewPatientApp
 
     public class PatientDrug
     {
-        public int ID;
         public DateTime DateOfManufacture;
         public int Remaining;
         public Drug Drug;
@@ -115,6 +114,11 @@ namespace NewPatientApp
         public Meals TakeMeals;
         public int LeftTakeMedicine;
         public DateTime TakeMedicineBeforeDate;
+
+        public override string ToString()
+        {
+            return DrugName + " " + Note;
+        }
     }
 
     public class Drug
@@ -159,5 +163,25 @@ namespace NewPatientApp
                     s += month.ToString() + " месяцев";
             return s;
         }
+    }
+
+    public class WellBeingRecord
+    {
+        public int ID;
+        public DateTime DateTime;
+        public float? Temperature;
+        public string? Note;
+        public Patient Patient;
+    }
+
+    public class MedicationTaken
+    {
+        public int ID;
+        public Patient Patient;
+        public Drug Drug;
+        public DateTime DateTime;
+        public bool ReceptionTimeDuringTheDay;
+        public bool ReceptionTimeInTheEvening;
+        public bool ReceptionTimeInTheMorning;
     }
 }

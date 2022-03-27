@@ -46,7 +46,7 @@ namespace NewPatientApp
             {
                 con.Open();
                 using (var command = new SqlCommand(
-                           @"INSERT INTO [Patient's drags] ([Patient ID], [Drag ID], Remaining, [Date of manufacture])
+                           @"INSERT INTO [Patient's drugs] ([Patient ID], [Drug ID], Remaining, [Date of manufacture])
                                     VALUES (@PatientID, @DrugID, @Remaining, @DateOfManufacture)", con))
                 {
                     try
